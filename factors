@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+import sys
+import math
+import time
+from datetime import datetime, timedelta
+
+# Record the start time
+start_time = time.time()
+start_cpu_time = time.process_time()
+file_path = sys.argv[1]
+
+with open(file_path, 'r') as file:
+    for line in file:
+        number = int(line.strip())
+        i = 2
+        limit = math.isqrt(number) + 1
+        while i <= limit:
+            if number % i == 0:
+                print("{} = {} * {}".format(number, int(number / i), i))
+                break  # Exit the loop if a divisor is found
+            i = i + 1
+print()
+
+# Record the end time
+end_time = time.time()
+end_cpu_time = time.process_time()
+
+# Calculate the elapsed times
+elapsed_time = end_time - start_time
+elapsed_cpu_time = end_cpu_time - start_cpu_time
+
+# Format the times
+formatted_real_time = datetime.utcfromtimestamp(elapsed_time).strftime('%-Mm%S.%fs')
+formatted_user_time = datetime.utcfromtimestamp(elapsed_cpu_time).strftime('%-Mm%S.%fs')
+formatted_sys_time = datetime.utcfromtimestamp(elapsed_time - elapsed_cpu_time).strftime('%-Mm%S.%fs')
+
+# Print the formatted times
+print("real   ", formatted_real_time)
+print("user   ", formatted_user_time)
+print("sys ", formatted_sys_time)
